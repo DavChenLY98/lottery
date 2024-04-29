@@ -1,7 +1,9 @@
 package com.itheima.prize.commons.db.service;
 
-import com.itheima.prize.commons.db.entity.CardGame;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.itheima.prize.commons.db.entity.CardGame;
+
+import java.util.List;
 
 /**
 * @author shawn
@@ -10,4 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface CardGameService extends IService<CardGame> {
 
+
+    void getCard(List<CardGame> cardGameList);
 }

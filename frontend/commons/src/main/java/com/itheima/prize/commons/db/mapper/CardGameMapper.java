@@ -1,7 +1,7 @@
 package com.itheima.prize.commons.db.mapper;
 
-import com.itheima.prize.commons.db.entity.CardGame;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.itheima.prize.commons.db.entity.CardGame;
 
 /**
 * @author shawn
@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.itheima.prize.commons.db.entity.CardGame
 */
 public interface CardGameMapper extends BaseMapper<CardGame> {
-
+    
 }
 
 

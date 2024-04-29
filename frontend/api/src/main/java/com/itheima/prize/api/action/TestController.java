@@ -3,10 +3,10 @@ package com.itheima.prize.api.action;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.itheima.prize.api.config.LuaScript;
 import com.itheima.prize.commons.config.RedisKeys;
-import com.itheima.prize.commons.db.entity.*;
-import com.itheima.prize.commons.db.mapper.CardGameMapper;
-import com.itheima.prize.commons.db.mapper.CardProductMapper;
-import com.itheima.prize.commons.db.mapper.CardUserHitMapper;
+import com.itheima.prize.commons.db.entity.CardGame;
+import com.itheima.prize.commons.db.entity.CardProduct;
+import com.itheima.prize.commons.db.entity.CardUserHit;
+import com.itheima.prize.commons.db.entity.ViewCardUserHit;
 import com.itheima.prize.commons.db.service.CardGameService;
 import com.itheima.prize.commons.db.service.CardProductService;
 import com.itheima.prize.commons.db.service.CardUserHitService;
@@ -20,7 +20,6 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,10 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/test")
@@ -130,4 +126,13 @@ public class TestController {
     public ViewCardUserHit demo4(){
         return new ViewCardUserHit();
     }
+
+    @GetMapping("/test/test")
+    @ApiOperation(value = "测试接口")
+    public List<CardGame> test01(){
+        List<CardGame> cardGameList=new ArrayList<>();
+        gameService.getCard(cardGameList);
+        return cardGameList;
+    }
+
 }

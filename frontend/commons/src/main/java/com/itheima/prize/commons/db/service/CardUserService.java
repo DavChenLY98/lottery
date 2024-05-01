@@ -1,7 +1,8 @@
 package com.itheima.prize.commons.db.service;
 
-import com.itheima.prize.commons.db.entity.CardUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.itheima.prize.commons.db.entity.CardUser;
+import com.itheima.prize.commons.db.entity.CardUserDto;
 
 /**
 * @author shawn
@@ -10,4 +11,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface CardUserService extends IService<CardUser> {
 
+    CardUser judgeByAccountAndPassWord(String account, String password);
+
+    CardUserDto cardUserDTO(CardUser cardUser);
 }

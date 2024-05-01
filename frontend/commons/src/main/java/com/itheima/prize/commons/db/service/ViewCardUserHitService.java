@@ -1,7 +1,9 @@
 package com.itheima.prize.commons.db.service;
 
-import com.itheima.prize.commons.db.entity.ViewCardUserHit;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.itheima.prize.commons.db.entity.CardUser;
+import com.itheima.prize.commons.db.entity.ViewCardUserHit;
+import com.itheima.prize.commons.utils.PageBean;
 
 /**
 * @author shawn
@@ -10,4 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface ViewCardUserHitService extends IService<ViewCardUserHit> {
 
+
+    PageBean<ViewCardUserHit> getPageBeam(int gameid, int curpage, int limit, CardUser cardUser);
 }

@@ -1,11 +1,9 @@
 package com.itheima.prize.api.action;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.itheima.prize.commons.db.entity.CardUser;
 import com.itheima.prize.commons.db.entity.CardUserDto;
 import com.itheima.prize.commons.db.entity.ViewCardUserHit;
-import com.itheima.prize.commons.db.mapper.ViewCardUserHitMapper;
+import com.itheima.prize.commons.db.service.CardUserService;
 import com.itheima.prize.commons.db.service.GameLoadService;
 import com.itheima.prize.commons.db.service.ViewCardUserHitService;
 import com.itheima.prize.commons.utils.ApiResult;
@@ -32,15 +30,27 @@ public class UserController {
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
-    private ViewCardUserHitService hitService;
+    private ViewCardUserHitService viewCardUserHitService;
     @Autowired
     private GameLoadService loadService;
+    @Autowired
+    private CardUserService cardUserService;
 
     @GetMapping("/info")
     @ApiOperation(value = "用户信息")
     public ApiResult info(HttpServletRequest request) {
-        //TODO
-        return null;
+        //获取session
+        HttpSession session = request.getSession();
+        //通过session获取用户信息
+        CardUser cardUser = (CardUser) session.getAttribute("user");
+        if(cardUser==null){
+            return new ApiResult(0,"登陆超时",null);
+        }else{
+            //通过获取到的用户信息进一步查询数据库中该用户的参与活动信息和中奖信息
+            CardUserDto cardUserDto= cardUserService.cardUserDTO(cardUser);
+            return new ApiResult(1,"成功",cardUserDto);
+        }
+
     }
 
     @GetMapping("/hit/{gameid}/{curpage}/{limit}")
@@ -52,7 +62,12 @@ public class UserController {
     })
     public ApiResult hit(@PathVariable int gameid,@PathVariable int curpage,@PathVariable int limit,HttpServletRequest request) {
         //TODO
-        return null;
+        HttpSession session = request.getSession();
+        CardUser cardUser = (CardUser) session.getAttribute("user");
+        PageBean<ViewCardUserHit> viewCardUserHitPageBean=
+                viewCardUserHitService.getPageBeam(gameid,curpage,limit,cardUser);
+        return new ApiResult(1,"成功",viewCardUserHitPageBean);
+
     }
 
 

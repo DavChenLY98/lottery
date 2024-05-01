@@ -14,4 +14,6 @@ public interface ViewCardUserHitService extends IService<ViewCardUserHit> {
 
 
     PageBean<ViewCardUserHit> getPageBeam(int gameid, int curpage, int limit, CardUser cardUser);
+
+    PageBean getPageBeamCardGameList(int gameid, int curpage, int limit);
 }

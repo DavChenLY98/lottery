@@ -2,6 +2,7 @@ package com.itheima.prize.commons.db.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.itheima.prize.commons.db.entity.CardGame;
+import com.itheima.prize.commons.utils.PageBean;
 
 import java.util.List;
 
@@ -14,4 +15,8 @@ public interface CardGameService extends IService<CardGame> {
 
 
     void getCard(List<CardGame> cardGameList);
+
+    PageBean getCardGame(int status, int curpage, int limit);
+
+    CardGame getCardGameMsg(int gameid);
 }

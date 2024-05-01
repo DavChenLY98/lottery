@@ -1,13 +1,8 @@
 package com.itheima.prize.api.action;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.itheima.prize.commons.db.entity.CardGame;
 import com.itheima.prize.commons.db.entity.CardProductDto;
 import com.itheima.prize.commons.db.entity.ViewCardUserHit;
-import com.itheima.prize.commons.db.mapper.CardGameMapper;
-import com.itheima.prize.commons.db.mapper.GameLoadMapper;
-import com.itheima.prize.commons.db.mapper.ViewCardUserHitMapper;
 import com.itheima.prize.commons.db.service.CardGameService;
 import com.itheima.prize.commons.db.service.GameLoadService;
 import com.itheima.prize.commons.db.service.ViewCardUserHitService;
@@ -23,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -45,8 +39,8 @@ public class GameController {
             @ApiImplicitParam(name = "limit",value = "每页条数",defaultValue = "10",dataType = "int",example = "3",required = true)
     })
     public ApiResult list(@PathVariable int status,@PathVariable int curpage,@PathVariable int limit) {
-        //TODO
-        return null;
+        PageBean<CardGame> pageBean=gameService.getCardGame(status,curpage,limit);
+        return new ApiResult(1,"成功",pageBean);
     }
 
     @GetMapping("/info/{gameid}")
@@ -55,8 +49,8 @@ public class GameController {
             @ApiImplicitParam(name="gameid",value = "活动id",example = "1",required = true)
     })
     public ApiResult<CardGame> info(@PathVariable int gameid) {
-        //TODO
-        return null;
+        CardGame cardGame = gameService.getCardGameMsg(gameid);
+        return new ApiResult<CardGame>(1,"成功",cardGame);
     }
 
     @GetMapping("/products/{gameid}")
@@ -65,8 +59,8 @@ public class GameController {
             @ApiImplicitParam(name="gameid",value = "活动id",example = "1",required = true)
     })
     public ApiResult<List<CardProductDto>> products(@PathVariable int gameid) {
-        //TODO
-        return null;
+        List<CardProductDto> cardProductDtoList=loadService.getByGameId(gameid);
+        return new ApiResult<>(1,"成功",cardProductDtoList);
     }
 
     @GetMapping("/hit/{gameid}/{curpage}/{limit}")
@@ -77,8 +71,8 @@ public class GameController {
             @ApiImplicitParam(name = "limit",value = "每页条数",defaultValue = "10",dataType = "int",example = "3",required = true)
     })
     public ApiResult<PageBean<ViewCardUserHit>> hit(@PathVariable int gameid,@PathVariable int curpage,@PathVariable int limit) {
-        //TODO
-        return null;
+        PageBean pageBean = hitService.getPageBeamCardGameList(gameid,curpage,limit);
+        return new ApiResult<>(1,"成功",pageBean);
     }
 
 

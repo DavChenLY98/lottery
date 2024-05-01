@@ -25,6 +25,14 @@ public class ViewCardUserHitServiceImpl extends ServiceImpl<ViewCardUserHitMappe
     @Autowired
     private ViewCardUserHitMapper viewCardUserHitMapper;
 
+    /**
+     * 用户根据活动id获取用户中奖信息
+     * @param gameid
+     * @param curpage
+     * @param limit
+     * @param cardUser
+     * @return
+     */
     @Override
     public PageBean<ViewCardUserHit> getPageBeam(int gameid, int curpage, int limit, CardUser cardUser) {
         QueryWrapper<ViewCardUserHit> hitMsg=new QueryWrapper<ViewCardUserHit>()
@@ -34,8 +42,24 @@ public class ViewCardUserHitServiceImpl extends ServiceImpl<ViewCardUserHitMappe
         }
         List<ViewCardUserHit> viewCardUserHits = viewCardUserHitMapper.selectList(hitMsg);
         PageBean<ViewCardUserHit> viewCardUserHitPageBean =
-                new PageBean<>(curpage, limit, 0, viewCardUserHits);
+                new PageBean<>(curpage, limit, 100, viewCardUserHits);
         return viewCardUserHitPageBean;
+    }
+
+    /**
+     * 用于获取制定活动的中奖信息
+     * @param gameid
+     * @param curpage
+     * @param limit
+     * @return
+     */
+    @Override
+    public PageBean getPageBeamCardGameList(int gameid, int curpage, int limit) {
+        QueryWrapper<ViewCardUserHit> hitMsg=new QueryWrapper<ViewCardUserHit>()
+                .eq("gameid",gameid);
+        List<ViewCardUserHit> viewCardUserHits = viewCardUserHitMapper.selectList(hitMsg);
+        PageBean hitMsgPageBean=new PageBean<>(curpage,limit,100,viewCardUserHits);
+        return hitMsgPageBean;
     }
 }
 

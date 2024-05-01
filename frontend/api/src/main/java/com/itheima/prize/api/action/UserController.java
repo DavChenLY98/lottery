@@ -43,12 +43,11 @@ public class UserController {
         HttpSession session = request.getSession();
         //通过session获取用户信息
         CardUser cardUser = (CardUser) session.getAttribute("user");
-        if(cardUser==null){
-            return new ApiResult(0,"登陆超时",null);
-        }else{
-            //通过获取到的用户信息进一步查询数据库中该用户的参与活动信息和中奖信息
-            CardUserDto cardUserDto= cardUserService.cardUserDTO(cardUser);
-            return new ApiResult(1,"成功",cardUserDto);
+        if (cardUser == null) {
+            return new ApiResult(0, "登陆超时", null);
+        } else {
+            CardUserDto cardUserDto = loadService.cardUserDTO(cardUser);
+            return new ApiResult(1, "成功", cardUserDto);
         }
 
     }
@@ -56,17 +55,16 @@ public class UserController {
     @GetMapping("/hit/{gameid}/{curpage}/{limit}")
     @ApiOperation(value = "我的奖品")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="gameid",value = "活动id（-1=全部）",dataType = "int",example = "1",required = true),
-            @ApiImplicitParam(name = "curpage",value = "第几页",defaultValue = "1",dataType = "int", example = "1"),
-            @ApiImplicitParam(name = "limit",value = "每页条数",defaultValue = "10",dataType = "int",example = "3")
+            @ApiImplicitParam(name = "gameid", value = "活动id（-1=全部）", dataType = "int", example = "1", required = true),
+            @ApiImplicitParam(name = "curpage", value = "第几页", defaultValue = "1", dataType = "int", example = "1"),
+            @ApiImplicitParam(name = "limit", value = "每页条数", defaultValue = "10", dataType = "int", example = "3")
     })
-    public ApiResult hit(@PathVariable int gameid,@PathVariable int curpage,@PathVariable int limit,HttpServletRequest request) {
-        //TODO
+    public ApiResult hit(@PathVariable int gameid, @PathVariable int curpage, @PathVariable int limit, HttpServletRequest request) {
         HttpSession session = request.getSession();
         CardUser cardUser = (CardUser) session.getAttribute("user");
-        PageBean<ViewCardUserHit> viewCardUserHitPageBean=
-                viewCardUserHitService.getPageBeam(gameid,curpage,limit,cardUser);
-        return new ApiResult(1,"成功",viewCardUserHitPageBean);
+        PageBean<ViewCardUserHit> viewCardUserHitPageBean =
+                viewCardUserHitService.getPageBeam(gameid, curpage, limit, cardUser);
+        return new ApiResult(1, "成功", viewCardUserHitPageBean);
 
     }
 

@@ -47,7 +47,6 @@ public class LoginController {
             cardUser.setIdcard(null);
             HttpSession session = request.getSession();
             session.setAttribute("user",cardUser);
-
             return new ApiResult(1,"登录成功",cardUser);
         }else{
             redisUtil.incr(key,1L);

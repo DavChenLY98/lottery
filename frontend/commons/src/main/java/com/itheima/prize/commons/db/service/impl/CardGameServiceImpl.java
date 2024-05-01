@@ -1,6 +1,7 @@
 package com.itheima.prize.commons.db.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itheima.prize.commons.db.entity.CardGame;
 import com.itheima.prize.commons.db.mapper.CardGameMapper;
@@ -51,10 +52,13 @@ public class CardGameServiceImpl extends ServiceImpl<CardGameMapper, CardGame>
         if(status!=-1){
             cardgameQueryWrapper.eq("status",status);
         }
-        List<CardGame> cardGameList = cardGameMapper.selectList(cardgameQueryWrapper);
+        /*List<CardGame> cardGameList = cardGameMapper.selectList(cardgameQueryWrapper);
         PageBean<CardGame> cardGamePageBean =
                 new PageBean<>(curpage, limit, 100, cardGameList);
-        return cardGamePageBean;
+        return cardGamePageBean;*/
+        Page<CardGame> page= Page.of(curpage,limit);
+        Page<CardGame> pageRes = page(page, cardgameQueryWrapper);
+        return new PageBean<CardGame>(pageRes);
     }
 
     /**

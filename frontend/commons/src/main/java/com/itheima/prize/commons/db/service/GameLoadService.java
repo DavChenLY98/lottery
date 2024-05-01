@@ -1,6 +1,8 @@
 package com.itheima.prize.commons.db.service;
 
 import com.itheima.prize.commons.db.entity.CardProductDto;
+import com.itheima.prize.commons.db.entity.CardUser;
+import com.itheima.prize.commons.db.entity.CardUserDto;
 
 import java.util.List;
 
@@ -23,4 +25,6 @@ public interface GameLoadService {
      * @return
      */
     public Integer getPrizesNumByUserId(int userid);
+
+    CardUserDto cardUserDTO(CardUser cardUser);
 }

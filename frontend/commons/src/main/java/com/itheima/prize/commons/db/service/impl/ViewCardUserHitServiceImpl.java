@@ -1,16 +1,14 @@
 package com.itheima.prize.commons.db.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itheima.prize.commons.db.entity.CardUser;
 import com.itheima.prize.commons.db.entity.ViewCardUserHit;
 import com.itheima.prize.commons.db.mapper.ViewCardUserHitMapper;
 import com.itheima.prize.commons.db.service.ViewCardUserHitService;
 import com.itheima.prize.commons.utils.PageBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
 * @author shawn
@@ -21,9 +19,6 @@ import java.util.List;
 public class ViewCardUserHitServiceImpl extends ServiceImpl<ViewCardUserHitMapper, ViewCardUserHit>
     implements ViewCardUserHitService{
 
-
-    @Autowired
-    private ViewCardUserHitMapper viewCardUserHitMapper;
 
     /**
      * 用户根据活动id获取用户中奖信息
@@ -40,10 +35,9 @@ public class ViewCardUserHitServiceImpl extends ServiceImpl<ViewCardUserHitMappe
         if(gameid!=-1){
             hitMsg.eq("gameid",gameid);
         }
-        List<ViewCardUserHit> viewCardUserHits = viewCardUserHitMapper.selectList(hitMsg);
-        PageBean<ViewCardUserHit> viewCardUserHitPageBean =
-                new PageBean<>(curpage, limit, 100, viewCardUserHits);
-        return viewCardUserHitPageBean;
+        Page<ViewCardUserHit> page=Page.of(curpage,limit);
+        Page<ViewCardUserHit> p = page(page, hitMsg);
+        return new PageBean<>(p);
     }
 
     /**
@@ -57,9 +51,10 @@ public class ViewCardUserHitServiceImpl extends ServiceImpl<ViewCardUserHitMappe
     public PageBean getPageBeamCardGameList(int gameid, int curpage, int limit) {
         QueryWrapper<ViewCardUserHit> hitMsg=new QueryWrapper<ViewCardUserHit>()
                 .eq("gameid",gameid);
-        List<ViewCardUserHit> viewCardUserHits = viewCardUserHitMapper.selectList(hitMsg);
-        PageBean hitMsgPageBean=new PageBean<>(curpage,limit,100,viewCardUserHits);
-        return hitMsgPageBean;
+        Page<ViewCardUserHit> page=Page.of(curpage,limit);
+        Page<ViewCardUserHit> p = page(page, hitMsg);
+        return new PageBean<ViewCardUserHit>(page);
+
     }
 }
 

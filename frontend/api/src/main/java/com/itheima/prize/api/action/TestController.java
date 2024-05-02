@@ -127,12 +127,5 @@ public class TestController {
         return new ViewCardUserHit();
     }
 
-    @GetMapping("/test/test")
-    @ApiOperation(value = "测试接口")
-    public List<CardGame> test01(){
-        List<CardGame> cardGameList=new ArrayList<>();
-        gameService.getCard(cardGameList);
-        return cardGameList;
-    }
 
 }

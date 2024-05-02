@@ -17,6 +17,7 @@ import org.springframework.data.redis.cache.RedisCacheWriter;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -37,6 +38,11 @@ public class RedisConfig extends CachingConfigurerSupport {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
         redisTemplate.setConnectionFactory(factory);
         redisTemplate.setKeySerializer(new StringRedisSerializer()); // key的序列化类型
+
+        //设置Hash类型的key设置序列化器
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        // Hash类型 value序列器
+        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
 
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
         ObjectMapper objectMapper = new ObjectMapper();

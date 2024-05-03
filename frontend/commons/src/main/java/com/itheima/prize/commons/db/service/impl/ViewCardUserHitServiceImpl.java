@@ -41,7 +41,7 @@ public class ViewCardUserHitServiceImpl extends ServiceImpl<ViewCardUserHitMappe
     }
 
     /**
-     * 用于获取制定活动的中奖信息
+     * 用于获取指定活动的中奖信息
      * @param gameid
      * @param curpage
      * @param limit
@@ -52,7 +52,7 @@ public class ViewCardUserHitServiceImpl extends ServiceImpl<ViewCardUserHitMappe
         QueryWrapper<ViewCardUserHit> hitMsg=new QueryWrapper<ViewCardUserHit>()
                 .eq("gameid",gameid);
         Page<ViewCardUserHit> page=Page.of(curpage,limit);
-        Page<ViewCardUserHit> p = page(page, hitMsg);
+        page(page, hitMsg);
         return new PageBean<ViewCardUserHit>(page);
 
     }

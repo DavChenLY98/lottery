@@ -1,9 +1,7 @@
 package com.itheima.prize.msg;
 
-import com.alibaba.fastjson.JSON;
 import com.itheima.prize.commons.config.RabbitKeys;
 import com.itheima.prize.commons.db.entity.CardUserHit;
-import com.itheima.prize.commons.db.mapper.CardUserHitMapper;
 import com.itheima.prize.commons.db.service.CardUserHitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,9 +18,15 @@ public class PrizeHitReceiver {
     @Autowired
     private CardUserHitService hitService;
 
+
+    /**
+     * 更新数据库中用户中奖信息
+     * @param cardUserHit
+     */
     @RabbitHandler
-    public void processMessage(String message) {
-        logger.info("user hit : message={}", message);
+    public void processMessage(CardUserHit cardUserHit) {
+        logger.info("user hit : message={}", cardUserHit);
         //TODO
+        hitService.save(cardUserHit);
     }
 }

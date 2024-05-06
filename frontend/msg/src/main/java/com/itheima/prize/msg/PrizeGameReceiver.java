@@ -1,5 +1,6 @@
 package com.itheima.prize.msg;
 
+import com.alibaba.fastjson.JSON;
 import com.itheima.prize.commons.config.RabbitKeys;
 import com.itheima.prize.commons.db.entity.CardUserGame;
 import com.itheima.prize.commons.db.service.CardUserGameService;
@@ -21,12 +22,12 @@ public class PrizeGameReceiver {
 
     /**
      * 用于记录用户参与的活动
-     * @param cardUserGame
+     * @param msg
      */
     @RabbitHandler
-    public void processMessage(CardUserGame cardUserGame) {
-        logger.info("user play : msg={}" , cardUserGame);
-        //TODO
+    public void processMessage(String msg) {
+        logger.info("user play : msg={}" , msg);
+        CardUserGame cardUserGame = JSON.parseObject(msg, CardUserGame.class);
         cardUserGameService.save(cardUserGame);
     }
 

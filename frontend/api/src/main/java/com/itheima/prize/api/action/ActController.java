@@ -1,5 +1,6 @@
 package com.itheima.prize.api.action;
 
+import com.alibaba.fastjson.JSON;
 import com.itheima.prize.api.config.LuaScript;
 import com.itheima.prize.commons.config.RabbitKeys;
 import com.itheima.prize.commons.config.RedisKeys;
@@ -107,6 +108,7 @@ public class ActController {
                     duration / 1000);
             CardProduct cardProduct = (CardProduct) redisUtil.get(RedisKeys.TOKEN +
                     cardGame.getId() + "_" + res);
+
             nSynchronizedGameProductsMQ(cardUser, cardGame, cardProduct, date);
             return new ApiResult<>(1, "恭喜中奖", cardProduct);
         }
@@ -130,8 +132,9 @@ public class ActController {
             cardUserGame.setCreatetime(date);
             cardUserGame.setGameid(cardGame.getId());
             cardUserGame.setUserid(cardUser.getId());
+            String msg = JSON.toJSONString(cardUserGame);
             rabbitTemplate.convertAndSend(RabbitKeys.EXCHANGE_DIRECT,
-                    RabbitKeys.QUEUE_PLAY, cardUserGame);
+                    RabbitKeys.QUEUE_PLAY, msg);
         }
     }
 
@@ -185,8 +188,9 @@ public class ActController {
         cardUserHit.setHittime(date);
         cardUserHit.setProductid(cardProduct.getId());
         cardUserHit.setUserid(cardUser.getId());
+        String msg = JSON.toJSONString(cardUserHit);
         rabbitTemplate.convertAndSend(RabbitKeys.EXCHANGE_DIRECT,
-                RabbitKeys.QUEUE_HIT, cardUserHit);
+                RabbitKeys.QUEUE_HIT, msg);
 
     }
 

@@ -1,5 +1,6 @@
 package com.itheima.prize.msg;
 
+import com.alibaba.fastjson.JSON;
 import com.itheima.prize.commons.config.RabbitKeys;
 import com.itheima.prize.commons.db.entity.CardUserHit;
 import com.itheima.prize.commons.db.service.CardUserHitService;
@@ -21,12 +22,12 @@ public class PrizeHitReceiver {
 
     /**
      * 更新数据库中用户中奖信息
-     * @param cardUserHit
+     * @param msg
      */
     @RabbitHandler
-    public void processMessage(CardUserHit cardUserHit) {
-        logger.info("user hit : message={}", cardUserHit);
-        //TODO
+    public void processMessage(String msg) {
+        logger.info("user hit : message={}", msg);
+        CardUserHit cardUserHit = JSON.parseObject(msg, CardUserHit.class);
         hitService.save(cardUserHit);
     }
 }
